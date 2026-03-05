@@ -105,15 +105,21 @@ function setupLevel(levelIdx) {
 }
 
 function spawnLevelElements(numPeople) {
-    // Obstáculos (Árvores/Pedras)
+    // Obstáculos (Tijolos)
     for (let i = 0; i < 15; i++) {
         const x = Math.random() * (window.innerWidth - 200) + 100;
         const y = Math.random() * (window.innerHeight - 200) + 100;
-        const obstacle = Bodies.circle(x, y, 20 + Math.random() * 20, {
+        const brick = Bodies.rectangle(x, y, 40, 20, {
             isStatic: true,
-            render: { fillStyle: Math.random() > 0.5 ? '#2ed573' : '#747d8c' }
+            render: {
+                sprite: {
+                    texture: 'assets/brick.png',
+                    xScale: 0.1,
+                    yScale: 0.1
+                }
+            }
         });
-        World.add(engine.world, obstacle);
+        World.add(engine.world, brick);
     }
 
     // Pessoas
