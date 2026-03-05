@@ -11,8 +11,8 @@ const gameConfig = {
     car: {
         width: 60,
         height: 30,
-        speed: 0.005,
-        turnSpeed: 0.05
+        speed: 0.008,
+        turnSpeed: 0.06
     }
 };
 
@@ -79,10 +79,17 @@ function setupLevel(levelIdx) {
         Bodies.rectangle(window.innerWidth + 10, window.innerHeight / 2, 20, window.innerHeight, wallOptions)
     ]);
 
-    // Carro
-    car = Bodies.rectangle(100, 100, gameConfig.car.width, gameConfig.car.height, {
+    // Carro (Visualmente melhorado com sprite)
+    car = Bodies.rectangle(100, 100, 64, 32, {
         chamfer: { radius: 5 },
-        render: { fillStyle: '#ff4757' }
+        frictionAir: 0.05,
+        render: {
+            sprite: {
+                texture: 'assets/car.png',
+                xScale: 0.2,
+                yScale: 0.2
+            }
+        }
     });
     World.add(engine.world, car);
 
