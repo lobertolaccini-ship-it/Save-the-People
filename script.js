@@ -121,10 +121,16 @@ function spawnLevelElements(numPeople) {
     for (let i = 0; i < numPeople; i++) {
         const x = Math.random() * (window.innerWidth - 200) + 100;
         const y = Math.random() * (window.innerHeight - 200) + 100;
-        const person = Bodies.circle(x, y, 10, {
+        const person = Bodies.circle(x, y, 20, {
             isSensor: true,
             label: 'person',
-            render: { fillStyle: '#ffffff' }
+            render: {
+                sprite: {
+                    texture: 'assets/stickman.png',
+                    xScale: 0.1,
+                    yScale: 0.1
+                }
+            }
         });
         people.push(person);
         World.add(engine.world, person);
