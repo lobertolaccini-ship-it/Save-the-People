@@ -86,11 +86,15 @@ function setupLevel(levelIdx) {
     });
     World.add(engine.world, car);
 
-    // Casa de Checkout
-    checkoutHouse = Bodies.rectangle(window.innerWidth - 100, window.innerHeight - 100, 120, 120, {
+    // Casa de Checkout (Visualmente melhorada)
+    checkoutHouse = Bodies.circle(window.innerWidth - 100, window.innerHeight - 100, 60, {
         isStatic: true,
         label: 'house',
-        render: { fillStyle: '#ffa502' }
+        render: {
+            fillStyle: '#ffa502',
+            strokeStyle: '#ffffff',
+            lineWidth: 5
+        }
     });
     World.add(engine.world, checkoutHouse);
 
