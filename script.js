@@ -95,14 +95,17 @@ function setupLevel(levelIdx) {
     });
     World.add(engine.world, car);
 
-    // Casa de Checkout
-    checkoutHouse = Bodies.circle(window.innerWidth - 100, window.innerHeight - 100, 60, {
+    // Zona de Resgate (Casa)
+    checkoutHouse = Bodies.rectangle(window.innerWidth - 100, window.innerHeight - 100, 100, 100, {
         isStatic: true,
+        isSensor: true, // Permite que o carro entre na zona
         label: 'house',
         render: {
-            fillStyle: '#ffa502',
-            strokeStyle: '#ffffff',
-            lineWidth: 5
+            sprite: {
+                texture: 'assets/house.svg',
+                xScale: 1,
+                yScale: 1
+            }
         }
     });
     World.add(engine.world, checkoutHouse);

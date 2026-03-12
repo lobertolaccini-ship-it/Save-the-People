@@ -1,0 +1,11 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Body of the house -->
+  <rect x="20" y="50" width="80" height="60" fill="#E67E22" stroke="#D35400" stroke-width="4" />
+  <!-- Roof -->
+  <path d="M10,50 L60,10 L110,50 Z" fill="#C0392B" stroke="#922B21" stroke-width="4" />
+  <!-- Door -->
+  <rect x="50" y="80" width="20" height="30" fill="#34495E" />
+  <!-- Window -->
+  <rect x="35" y="65" width="15" height="15" fill="#AED6F1" stroke="#3498DB" stroke-width="2" />
+  <rect x="70" y="65" width="15" height="15" fill="#AED6F1" stroke="#3498DB" stroke-width="2" />
+</svg>
