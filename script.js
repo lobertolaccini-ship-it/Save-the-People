@@ -3,16 +3,16 @@ const { Engine, Render, Runner, World, Bodies, Body, Composite, Events } = Matte
 // Configurações do Jogo
 const gameConfig = {
     levels: [
-        { people: 3, time: 60, title: "Nível 1: Resgate no Parque" },
-        { people: 5, time: 50, title: "Nível 2: Emergência na Neve" },
-        { people: 8, time: 45, title: "Nível 3: Pânico na Cidade" },
-        { people: 10, time: 40, title: "Nível 4: Desafio Final" }
+        { people: 3, time: 75, title: "Nível 1: Resgate no Parque" },
+        { people: 5, time: 65, title: "Nível 2: Emergência na Neve" },
+        { people: 8, time: 60, title: "Nível 3: Pânico na Cidade" },
+        { people: 10, time: 55, title: "Nível 4: Desafio Final" }
     ],
     car: {
         width: 60,
         height: 30,
         speed: 0.008,
-        turnSpeed: 0.06
+        turnSpeed: 0.12 // Aumentado de 0.06 para 0.12 para girar mais rápido
     }
 };
 
