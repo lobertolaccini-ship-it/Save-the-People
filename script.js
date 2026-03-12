@@ -164,7 +164,7 @@ function spawnLevelElements(numPeople) {
 function handleKeyDown(e) {
     if (!gameActive) return;
 
-    const angle = car.angle;
+    let angle = car.angle;
     const force = gameConfig.car.speed;
     const maxVelocity = 4;
 
@@ -188,11 +188,19 @@ function handleKeyDown(e) {
         Body.setVelocity(car, { x: velocity.x * ratio, y: velocity.y * ratio });
     }
 
+    // Lógica de rotação com limite (Não deixa ficar de ponta-cabeça)
+    const turnSpeed = gameConfig.car.turnSpeed;
+    const limit = Math.PI / 2; // 90 graus em radianos
+
     if (e.key === 'ArrowLeft') {
-        Body.rotate(car, -gameConfig.car.turnSpeed);
+        let nextAngle = angle - turnSpeed;
+        if (nextAngle < -limit) nextAngle = -limit;
+        Body.setAngle(car, nextAngle);
     }
     if (e.key === 'ArrowRight') {
-        Body.rotate(car, gameConfig.car.turnSpeed);
+        let nextAngle = angle + turnSpeed;
+        if (nextAngle > limit) nextAngle = limit;
+        Body.setAngle(car, nextAngle);
     }
 }
 
