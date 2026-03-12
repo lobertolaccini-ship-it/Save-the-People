@@ -143,24 +143,6 @@ function spawnLevelElements(numPeople) {
         World.add(engine.world, brick);
     }
 
-    // Obstáculos (Árvores) - Barreira sólida
-    for (let i = 0; i < 10; i++) {
-        const x = Math.random() * (window.innerWidth - 200) + 100;
-        const y = Math.random() * (window.innerHeight - 200) + 100;
-
-        const tree = Bodies.rectangle(x, y, 60, 60, {
-            isStatic: true,
-            label: 'obstacle',
-            render: {
-                sprite: {
-                    texture: 'assets/tree.png',
-                    xScale: 0.15,
-                    yScale: 0.15
-                }
-            }
-        });
-        World.add(engine.world, tree);
-    }
 
     // Pessoas - Fundo transparente
     people = [];
