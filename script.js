@@ -114,7 +114,7 @@ function setupLevel(levelIdx) {
 }
 
 function spawnLevelElements(numPeople) {
-    // Obstáculos (Tijolos)
+    // Obstáculos (Tijolos) - Barreira sólida com fundo transparente
     for (let i = 0; i < 15; i++) {
         const x = Math.random() * (window.innerWidth - 200) + 100;
         const y = Math.random() * (window.innerHeight - 200) + 100;
@@ -126,16 +126,16 @@ function spawnLevelElements(numPeople) {
             restitution: 0.1,
             render: {
                 sprite: {
-                    texture: 'assets/brick.png',
-                    xScale: 0.12,
-                    yScale: 0.12
+                    texture: 'assets/brick.svg',
+                    xScale: 1,
+                    yScale: 1
                 }
             }
         });
         World.add(engine.world, brick);
     }
 
-    // Pessoas
+    // Pessoas - Fundo transparente
     people = [];
     for (let i = 0; i < numPeople; i++) {
         const x = Math.random() * (window.innerWidth - 200) + 100;
@@ -145,9 +145,9 @@ function spawnLevelElements(numPeople) {
             label: 'person',
             render: {
                 sprite: {
-                    texture: 'assets/stickman.png',
-                    xScale: 0.15,
-                    yScale: 0.15
+                    texture: 'assets/stickman.svg',
+                    xScale: 1,
+                    yScale: 1
                 }
             }
         });
