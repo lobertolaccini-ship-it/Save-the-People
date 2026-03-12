@@ -265,6 +265,7 @@ nextBtn.addEventListener('click', () => {
 });
 
 retryBtn.addEventListener('click', () => {
+    currentLevel = 0; // Reinicia para o Nível 1
     setupLevel(currentLevel);
     startGame();
 });
