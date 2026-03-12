@@ -83,6 +83,8 @@ function setupLevel(levelIdx) {
     car = Bodies.rectangle(100, 100, 64, 32, {
         chamfer: { radius: 5 },
         frictionAir: 0.05,
+        friction: 0.2,
+        restitution: 0.1,
         render: {
             sprite: {
                 texture: 'assets/car.png',
@@ -112,17 +114,22 @@ function setupLevel(levelIdx) {
 }
 
 function spawnLevelElements(numPeople) {
-    // Obstáculos (Tijolos)
+    // Obstáculos (Tijolos) - Agora são barreiras físicas reais
     for (let i = 0; i < 15; i++) {
         const x = Math.random() * (window.innerWidth - 200) + 100;
         const y = Math.random() * (window.innerHeight - 200) + 100;
-        const brick = Bodies.rectangle(x, y, 40, 20, {
+
+        // Aumentamos o tamanho físico para garantir que bloqueiem o carro
+        const brick = Bodies.rectangle(x, y, 60, 30, {
             isStatic: true,
+            label: 'obstacle',
+            friction: 1,
+            restitution: 0.1, // Pouco rebote para parecer sólido
             render: {
                 sprite: {
                     texture: 'assets/brick.png',
-                    xScale: 0.1,
-                    yScale: 0.1
+                    xScale: 0.12, // Ajustado para a nova imagem transparente
+                    yScale: 0.12
                 }
             }
         });
@@ -140,8 +147,8 @@ function spawnLevelElements(numPeople) {
             render: {
                 sprite: {
                     texture: 'assets/stickman.png',
-                    xScale: 0.1,
-                    yScale: 0.1
+                    xScale: 0.15, // Ajustado para a nova imagem transparente
+                    yScale: 0.15
                 }
             }
         });
@@ -155,6 +162,7 @@ function handleKeyDown(e) {
 
     const angle = car.angle;
     const force = gameConfig.car.speed;
+    const maxVelocity = 4; // Limite de velocidade para evitar atravessar paredes
 
     if (e.key === 'ArrowUp') {
         Body.applyForce(car, car.position, {
@@ -168,6 +176,15 @@ function handleKeyDown(e) {
             y: -Math.sin(angle) * (force * 0.5)
         });
     }
+
+    // Limitar velocidade
+    const velocity = car.velocity;
+    const speed = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+    if (speed > maxVelocity) {
+        const ratio = maxVelocity / speed;
+        Body.setVelocity(car, { x: velocity.x * ratio, y: velocity.y * ratio });
+    }
+
     if (e.key === 'ArrowLeft') {
         Body.rotate(car, -gameConfig.car.turnSpeed);
     }
