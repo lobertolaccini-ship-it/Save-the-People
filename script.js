@@ -33,6 +33,8 @@ const overlay = document.getElementById('overlay');
 const menuContent = document.getElementById('menu-content');
 const winContent = document.getElementById('win-content');
 const gameoverContent = document.getElementById('gameover-content');
+const victoryContent = document.getElementById('victory-content');
+const restartBtn = document.getElementById('restart-btn');
 const levelSpan = document.querySelector('#level-display span');
 const timerSpan = document.querySelector('#timer-display span');
 const rescueSpan = document.querySelector('#rescue-display span');
@@ -219,7 +221,13 @@ function handleCollisions(event) {
 function winLevel() {
     stopGame();
     overlay.classList.remove('hidden');
-    winContent.classList.remove('hidden');
+
+    // Se for o último nível (Nível 4, índice 3), mostra tela de vitória final
+    if (currentLevel === gameConfig.levels.length - 1) {
+        victoryContent.classList.remove('hidden');
+    } else {
+        winContent.classList.remove('hidden');
+    }
 }
 
 function gameOver() {
@@ -240,6 +248,7 @@ function startGame() {
     menuContent.classList.add('hidden');
     winContent.classList.add('hidden');
     gameoverContent.classList.add('hidden');
+    victoryContent.classList.add('hidden');
 
     gameInterval = setInterval(() => {
         timer--;
@@ -265,6 +274,12 @@ nextBtn.addEventListener('click', () => {
 });
 
 retryBtn.addEventListener('click', () => {
+    currentLevel = 0; // Reinicia para o Nível 1
+    setupLevel(currentLevel);
+    startGame();
+});
+
+restartBtn.addEventListener('click', () => {
     currentLevel = 0; // Reinicia para o Nível 1
     setupLevel(currentLevel);
     startGame();
