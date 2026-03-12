@@ -3,10 +3,10 @@ const { Engine, Render, Runner, World, Bodies, Body, Composite, Events } = Matte
 // Configurações do Jogo
 const gameConfig = {
     levels: [
-        { people: 3, time: 75, title: "Nível 1: Resgate no Parque" },
-        { people: 5, time: 65, title: "Nível 2: Emergência na Neve" },
-        { people: 8, time: 60, title: "Nível 3: Pânico na Cidade" },
-        { people: 10, time: 55, title: "Nível 4: Desafio Final" }
+        { people: 3, time: 85, title: "Nível 1: Resgate no Parque" },
+        { people: 5, time: 75, title: "Nível 2: Emergência na Neve" },
+        { people: 8, time: 70, title: "Nível 3: Pânico na Cidade" },
+        { people: 10, time: 65, title: "Nível 4: Desafio Final" }
     ],
     car: {
         width: 60,
@@ -18,6 +18,7 @@ const gameConfig = {
 
 let currentLevel = 0;
 let rescuedCount = 0;
+let peopleInCar = 0;
 let timer = 0;
 let gameActive = false;
 let gameInterval;
@@ -38,6 +39,7 @@ const restartBtn = document.getElementById('restart-btn');
 const levelSpan = document.querySelector('#level-display span');
 const timerSpan = document.querySelector('#timer-display span');
 const rescueSpan = document.querySelector('#rescue-display span');
+const carSpan = document.querySelector('#car-display span');
 
 // Inicialização
 function initGame() {
@@ -69,6 +71,7 @@ function setupLevel(levelIdx) {
 
     const level = gameConfig.levels[levelIdx];
     rescuedCount = 0;
+    peopleInCar = 0;
     timer = level.time;
     updateHUD();
 
@@ -210,15 +213,21 @@ function handleCollisions(event) {
 
         if ((bodyA === car && bodyB.label === 'person') || (bodyB === car && bodyA.label === 'person')) {
             const personBody = bodyA.label === 'person' ? bodyA : bodyB;
-            if (personBody.render.visible !== false) {
+            if (personBody.render.visible !== false && peopleInCar < 4) {
                 personBody.render.visible = false;
                 World.remove(engine.world, personBody);
-                rescuedCount++;
+                peopleInCar++;
                 updateHUD();
             }
         }
 
         if ((bodyA === car && bodyB === checkoutHouse) || (bodyB === car && bodyA === checkoutHouse)) {
+            if (peopleInCar > 0) {
+                rescuedCount += peopleInCar;
+                peopleInCar = 0;
+                updateHUD();
+            }
+            
             if (rescuedCount >= gameConfig.levels[currentLevel].people) {
                 winLevel();
             }
@@ -248,6 +257,7 @@ function updateHUD() {
     levelSpan.innerText = currentLevel + 1;
     timerSpan.innerText = `${timer}s`;
     rescueSpan.innerText = `${rescuedCount}/${gameConfig.levels[currentLevel].people}`;
+    carSpan.innerText = `${peopleInCar}/4`;
 }
 
 function startGame() {
