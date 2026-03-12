@@ -50,7 +50,7 @@ function initGame() {
             width: window.innerWidth,
             height: window.innerHeight,
             wireframes: false,
-            background: '#2f3542'
+            background: 'transparent'
         }
     });
 
@@ -60,6 +60,48 @@ function initGame() {
 
     setupLevel(0);
     window.addEventListener('keydown', handleKeyDown);
+}
+
+// Função utilitária para processar imagens (rotacionar e remover fundos)
+function processImage(src, rotationDegrees, removeColor = null) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const radians = rotationDegrees * Math.PI / 180;
+
+            // Define o tamanho do canvas baseado na rotação
+            if (rotationDegrees === 90 || rotationDegrees === 270) {
+                canvas.width = img.height;
+                canvas.height = img.width;
+            } else {
+                canvas.width = img.width;
+                canvas.height = img.height;
+            }
+
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            ctx.rotate(radians);
+            ctx.drawImage(img, -img.width / 2, -img.height / 2);
+
+            // Se solicitado, remove uma cor específica (branco ou preto) deixando transparente
+            if (removeColor) {
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+                for (let i = 0; i < data.length; i += 4) {
+                    const r = data[i], g = data[i + 1], b = data[i + 2];
+                    // Remove branco (aprox) ou preto (aprox)
+                    if (removeColor === 'white' && r > 240 && g > 240 && b > 240) data[i + 3] = 0;
+                    if (removeColor === 'black' && r < 15 && g < 15 && b < 15) data[i + 3] = 0;
+                }
+                ctx.putImageData(imageData, 0, 0);
+            }
+
+            resolve(canvas.toDataURL());
+        };
+        img.src = src;
+    });
 }
 
 function setupLevel(levelIdx) {
@@ -79,7 +121,7 @@ function setupLevel(levelIdx) {
         Bodies.rectangle(window.innerWidth + 10, window.innerHeight / 2, 20, window.innerHeight, wallOptions)
     ]);
 
-    // Carro (Visualmente melhorado com sprite)
+    // Carro - Agora com rotação de 90 graus automática
     car = Bodies.rectangle(100, 100, 64, 32, {
         chamfer: { radius: 5 },
         frictionAir: 0.05,
@@ -93,16 +135,25 @@ function setupLevel(levelIdx) {
             }
         }
     });
+
+    // Aplicar rotação de 90 graus à imagem do carro e limpar fundo
+    processImage('assets/car.png', 90, 'white').then(url => {
+        car.render.sprite.texture = url;
+    });
+
     World.add(engine.world, car);
 
-    // Casa de Checkout (Visualmente melhorada)
-    checkoutHouse = Bodies.circle(window.innerWidth - 100, window.innerHeight - 100, 60, {
+    // Zona de Resgate - Agora uma Casa em vez de um círculo
+    checkoutHouse = Bodies.rectangle(window.innerWidth - 100, window.innerHeight - 100, 120, 120, {
         isStatic: true,
+        isSensor: true,
         label: 'house',
         render: {
-            fillStyle: '#ffa502',
-            strokeStyle: '#ffffff',
-            lineWidth: 5
+            sprite: {
+                texture: 'assets/house.svg',
+                xScale: 0.6,
+                yScale: 0.6
+            }
         }
     });
     World.add(engine.world, checkoutHouse);
@@ -133,6 +184,12 @@ function spawnLevelElements(numPeople) {
                 }
             }
         });
+
+        // Garantir fundo transparente no tijolo removendo artefatos brancos
+        processImage('assets/brick.png', 0, 'white').then(url => {
+            brick.render.sprite.texture = url;
+        });
+
         World.add(engine.world, brick);
     }
 
@@ -152,6 +209,12 @@ function spawnLevelElements(numPeople) {
                 }
             }
         });
+
+        // Garantir fundo transparente no stickman removendo artefatos pretos/brancos
+        processImage('assets/stickman.png', 0, 'black').then(url => {
+            person.render.sprite.texture = url;
+        });
+
         people.push(person);
         World.add(engine.world, person);
     }
