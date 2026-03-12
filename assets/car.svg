@@ -1,0 +1,18 @@
+<svg width="200" height="100" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Body -->
+  <path d="M20,60 Q20,30 50,30 L130,30 Q170,30 180,60 L180,80 Q180,90 170,90 L30,90 Q20,90 20,80 Z" fill="#e61e25" />
+  <path d="M50,30 L80,10 L130,10 L160,30 Z" fill="#e61e25" />
+  
+  <!-- Windows -->
+  <path d="M85,15 L125,15 L145,30 L65,30 Z" fill="#a0d8f1" />
+  <rect x="103" y="15" width="4" height="15" fill="#e61e25" />
+  
+  <!-- Wheels -->
+  <circle cx="60" cy="85" r="15" fill="#4d4d4d" />
+  <circle cx="60" cy="85" r="7" fill="#cccccc" />
+  <circle cx="145" cy="85" r="15" fill="#4d4d4d" />
+  <circle cx="145" cy="85" r="7" fill="#cccccc" />
+  
+  <!-- Light -->
+  <path d="M175,55 Q180,55 180,65 L180,75 Q180,85 175,85 Z" fill="#ffcc00" opacity="0.6"/>
+</svg>

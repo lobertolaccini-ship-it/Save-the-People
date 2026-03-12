@@ -87,9 +87,9 @@ function setupLevel(levelIdx) {
         restitution: 0.1,
         render: {
             sprite: {
-                texture: 'assets/car.png',
-                xScale: 0.2,
-                yScale: 0.2
+                texture: 'assets/car.svg',
+                xScale: 0.5,
+                yScale: 0.5
             }
         }
     });
